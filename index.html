@@ -99,6 +99,11 @@
             <button id="stopBtn">Arrêter</button>
         </div>
         <div class="connection-status" id="connectionStatus">En attente de connexion...</div>
+        
+        <!-- Bouton de test pour ajouter du temps manuellement -->
+        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2);">
+            <button id="testSubBtn" style="background-color: #43b581; color: white;">Tester un sub (+2:30)</button>
+        </div>
     </div>
 
     <script>
@@ -114,6 +119,7 @@
         const minutesInput = document.getElementById('minutes');
         const secondsInput = document.getElementById('seconds');
         const connectionStatus = document.getElementById('connectionStatus');
+        const testSubBtn = document.getElementById('testSubBtn');
 
         function getWebSocketUrl() {
             // Protocole WebSocket (ws:// en local, wss:// en production)
@@ -200,11 +206,33 @@
             stopBtn.disabled = true;
         }
 
+        // Fonction pour simuler un sub manuellement
+        function testSubscription() {
+            // Option 1: Ajouter directement le temps
+            addTime(150); // 2 minutes 30 secondes
+            
+            // Option 2: Envoyer une requête au webhook (décommentez pour utiliser cette méthode)
+            /*
+            fetch('/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subscription: {
+                        status: 'active'
+                    }
+                })
+            });
+            */
+        }
+
         // Connexion initiale au WebSocket
         connectWebSocket();
 
         startBtn.addEventListener('click', startTimer);
         stopBtn.addEventListener('click', stopTimer);
+        testSubBtn.addEventListener('click', testSubscription);
         stopBtn.disabled = true;
     </script>
 </body>
